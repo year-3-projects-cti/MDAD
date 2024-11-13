@@ -1,19 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:id="@+id/main"
+    android:orientation="vertical"
+    android:background="#f8f8f8"
+    >
 
-    <TextView
-        android:layout_width="wrap_content"
+    <!-- Top Section: Calendar (Current Date, Time etc.) -->
+
+    <!-- Mid Section: Task of the Day (Title and very short description) -->
+    <LinearLayout
+        android:id="@+id/top_section"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_gravity="center"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/top_shape"
+        android:backgroundTint="@color/orange"
+        android:elevation="4dp"
+        android:orientation="vertical"
+        android:padding="30dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/calendar_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/fredoka_bold"
+            android:text="Today, November 13, 2024"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/calendar_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/fredoka_light"
+            android:text="09:00 AM"
+            android:textColor="#ffffff"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/mid_section"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/mid_shape"
+        android:backgroundTint="@color/yellow"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:layout_marginBottom="8dp"
+        android:elevation="4dp"
+        android:layout_gravity="center"
+        android:shape="rectangle"
+        android:layout_margin="30dp">
+
+        <TextView
+            android:id="@+id/task_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/fredoka_regular"
+            android:text="Task of the Day"
+            android:textColor="#070707"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/task_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/fredoka_light"
+            android:text="Complete math homework on calculus"
+            android:textColor="#070707"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <!-- Bottom Section: Schedule of the Day (Class, Teacher, Location etc.) -->
+    <LinearLayout
+        android:id="@+id/bottom_section"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/bottom_shape"
+        android:backgroundTint="@color/orange"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:elevation="4dp"
+        android:layout_gravity="center"
+        android:shape="rectangle">
+
+        <TextView
+            android:id="@+id/schedule_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Today's Schedule"
+            android:textColor="#ffffff"
+            android:textSize="20sp"
+            android:fontFamily="@font/fredoka_regular"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:id="@+id/schedule_details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Math - Mr. Johnson - Room 204"
+            android:textColor="#ffffff"
+            android:textSize="16sp"
+            android:fontFamily="@font/fredoka_light"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
+
+</LinearLayout>
