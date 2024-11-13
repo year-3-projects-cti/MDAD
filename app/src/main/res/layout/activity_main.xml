@@ -169,20 +169,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Today's Schedule"
-            android:textColor="#ffffff"
-            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:textSize="28sp"
             android:fontFamily="@font/fredoka_regular"
             android:layout_gravity="center"/>
 
-        <TextView
-            android:id="@+id/schedule_details"
-            android:layout_width="wrap_content"
+        <!-- Container for Class Cards -->
+        <LinearLayout
+            android:id="@+id/class_cards_container"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Math - Mr. Johnson - Room 204"
-            android:textColor="#ffffff"
-            android:textSize="16sp"
-            android:fontFamily="@font/fredoka_light"
-            android:layout_gravity="center"/>
+            android:orientation="vertical"
+            android:padding="16dp" />
 
     </LinearLayout>
 

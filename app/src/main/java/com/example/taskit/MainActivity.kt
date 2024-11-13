@@ -1,6 +1,7 @@
 package com.example.taskit
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -23,6 +24,19 @@ class MainActivity : AppCompatActivity() {
 
         // Highlight the current date
         highlightCurrentDate(calendar.get(Calendar.DAY_OF_MONTH))
+
+        //Example for bottom part
+        val classes = listOf(
+            ClassItem("Math", "Mr. Johnson", "Room 204", "10:00 AM"),
+            ClassItem("Physics", "Ms. Smith", "Room 305", "12:00 PM"),
+            ClassItem("Chemistry", "Dr. Lee", "Room 101", "2:00 PM")
+        )
+
+        // Add class cards to the container
+        val classCardsContainer = findViewById<LinearLayout>(R.id.class_cards_container)
+        for (classItem in classes) {
+            addClassCard(classItem, classCardsContainer)
+        }
     }
 
     private fun populateDaysAndDates() {
@@ -81,4 +95,22 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun addClassCard(classItem: ClassItem, container: LinearLayout) {
+        // Inflate the card layout
+        val inflater = LayoutInflater.from(this)
+        val cardView = inflater.inflate(R.layout.class_card, container, false)
+
+        // Set the class information
+        val className = cardView.findViewById<TextView>(R.id.class_name)
+        val classDetails = cardView.findViewById<TextView>(R.id.class_details)
+
+        className.text = classItem.name
+        classDetails.text = "${classItem.teacher} - ${classItem.location} - ${classItem.time}"
+
+        // Add the card to the container
+        container.addView(cardView)
+    }
+
+    data class ClassItem(val name: String, val teacher: String, val location: String, val time: String)
 }
