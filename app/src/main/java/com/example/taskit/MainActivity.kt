@@ -1,23 +1,29 @@
 package com.example.taskit
 
 import android.os.Bundle
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Set edge-to-edge layout
-        WindowCompat.setDecorFitsSystemWindows(window, false)
         setContentView(R.layout.activity_main)
 
-        // Apply window insets to allow the layout to extend into system bars (status and navigation bars)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { view, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            view.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+        // Set the month title to the current month
+        val monthTitle = findViewById<TextView>(R.id.month_title)
+        val calendar = Calendar.getInstance()
+        val monthFormat = SimpleDateFormat("MMMM", Locale.getDefault())
+        monthTitle.text = monthFormat.format(calendar.time)
+
+        // Highlight the current date
+        highlightCurrentDate(calendar.get(Calendar.DAY_OF_MONTH))
+    }
+
+    private fun highlightCurrentDate(currentDay: Int) {
+        // This function should dynamically create the TextViews for each day
+        // and set the style for the current day based on `currentDay` parameter.
+        // Implement this with a loop that generates date views as shown in the XML.
     }
 }

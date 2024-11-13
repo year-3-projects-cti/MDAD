@@ -1,49 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/main"
     android:orientation="vertical"
-    android:background="#f8f8f8"
-    >
+    android:background="#f8f8f8">
 
     <!-- Top Section: Calendar (Current Date, Time etc.) -->
-
-    <!-- Mid Section: Task of the Day (Title and very short description) -->
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/top_section"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="8dp"
         android:background="@drawable/top_shape"
         android:backgroundTint="@color/orange"
         android:elevation="4dp"
-        android:orientation="vertical"
-        android:padding="30dp">
+        android:padding="20dp">
 
-
-        <TextView
-            android:id="@+id/calendar_date"
+        <!-- Month Title with Dropdown Arrow -->
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/fredoka_bold"
-            android:text="Today, November 13, 2024"
-            android:textColor="#ffffff"
-            android:textSize="20sp" />
+            android:orientation="horizontal"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true">
 
-        <TextView
-            android:id="@+id/calendar_time"
-            android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/month_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/fredoka_bold"
+                android:text="March"
+                android:textColor="#ffffff"
+                android:textSize="28sp" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_arrow_down"
+                android:layout_marginStart="4dp"
+                android:contentDescription="Dropdown arrow"
+                app:tint="#ffffff" />
+        </LinearLayout>
+
+        <!-- Days of the Week -->
+        <LinearLayout
+            android:id="@+id/days_of_week"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/fredoka_light"
-            android:text="09:00 AM"
-            android:textColor="#ffffff"
-            android:textSize="18sp" />
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
 
-    </LinearLayout>
+            <!-- Day names (e.g., Sun, Mon, etc.) -->
+            <TextView android:text="Sun" style="@style/DayOfWeekStyle" />
+            <TextView android:text="Mon" style="@style/DayOfWeekStyle" />
+            <TextView android:text="Tue" style="@style/DayOfWeekStyle" />
+            <TextView android:text="Wed" style="@style/DayOfWeekStyle" />
+            <TextView android:text="Thu" style="@style/DayOfWeekStyle" />
+            <TextView android:text="Fri" style="@style/DayOfWeekStyle" />
+            <TextView android:text="Sat" style="@style/DayOfWeekStyle" />
+        </LinearLayout>
 
+        <!-- Dates -->
+        <LinearLayout
+            android:id="@+id/dates"
+            android:layout_below="@id/days_of_week"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
+
+            <!-- Date TextViews (replace with dynamic content) -->
+            <TextView android:text="12" style="@style/DateStyle" />
+            <TextView android:text="13" style="@style/DateStyle" />
+            <TextView android:text="14" style="@style/DateStyle" />
+            <TextView android:text="15" style="@style/DateStyle" />
+            <TextView android:text="16" style="@style/HighlightedDateStyle" /> <!-- Highlighted date -->
+            <TextView android:text="17" style="@style/DateStyle" />
+            <TextView android:text="18" style="@style/DateStyle" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <!-- Mid Section: Task of the Day (Title and very short description) -->
     <LinearLayout
         android:id="@+id/mid_section"
         android:layout_width="match_parent"
