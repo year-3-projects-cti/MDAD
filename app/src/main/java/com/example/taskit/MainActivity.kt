@@ -1,10 +1,13 @@
 package com.example.taskit
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -12,6 +15,32 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+
+        // Set up navigation item selection
+        bottomNavigationView.setOnItemSelectedListener { item ->
+        when (item.itemId) {
+            R.id.nav_home -> {
+                // Open HomeActivity
+                val intent = Intent(this, HomeActivity::class.java)
+                startActivity(intent)
+            }
+
+            R.id.nav_add-> {
+                // Open AddClassActivity
+                val intent = Intent(this, ScheduleActivity::class.java)
+                startActivity(intent)
+            }
+
+            R.id.nav_settings -> {
+                // Open SettingsActivity
+                val intent = Intent(this, SettingsActivity::class.java)
+                startActivity(intent)
+            }
+        }
+            true
+        }
 
         // Set the month title to the current month
         val monthTitle = findViewById<TextView>(R.id.month_title)
@@ -37,6 +66,13 @@ class MainActivity : AppCompatActivity() {
         for (classItem in classes) {
             addClassCard(classItem, classCardsContainer)
         }
+    }
+
+    private fun replaceFragment(fragment: Fragment): Boolean {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .commit()
+        return true
     }
 
     private fun populateDaysAndDates() {

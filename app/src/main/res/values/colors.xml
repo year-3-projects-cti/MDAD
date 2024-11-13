@@ -4,4 +4,7 @@
     <color name="white">#f8f8f8</color>
     <color name="orange">#d95639</color>
     <color name="yellow">#fcd36a</color>
+    <color name="selected_color">@color/orange</color> <!-- Red color for selected state -->
+    <color name="unselected_color">#888888</color> <!-- Gray color for unselected state -->
+
 </resources>
