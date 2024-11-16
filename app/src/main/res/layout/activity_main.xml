@@ -164,17 +164,36 @@
         android:padding="16dp"
         android:shape="rectangle">
 
-        <TextView
-            android:id="@+id/schedule_title"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/schedule_title_container"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:fontFamily="@font/fredoka_regular"
-            android:text="Today's Schedule"
-            android:textColor="@color/white"
-            android:textSize="28sp" />
+            android:padding="16dp">
 
-        <!-- Container for Class Cards -->
+            <!-- Title -->
+            <TextView
+                android:id="@+id/schedule_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Today's Schedule"
+                android:textColor="@color/white"
+                android:textSize="28sp"
+                android:fontFamily="@font/fredoka_regular"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true" />
+
+            <!-- Plus Button -->
+            <ImageButton
+                android:id="@+id/add_class_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:src="@drawable/addbutton"
+                android:contentDescription="Add Class"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                app:tint="@color/white" />
+        </RelativeLayout>
         <LinearLayout
             android:id="@+id/class_cards_container"
             android:layout_width="match_parent"

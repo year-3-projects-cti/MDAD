@@ -3,6 +3,7 @@ package com.example.taskit
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -18,13 +19,19 @@ class MainActivity : AppCompatActivity() {
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
 
+        val addClassButton = findViewById<ImageButton>(R.id.add_class_button)
+
+        // Redirect to AddClassActivity on click
+        addClassButton.setOnClickListener {
+            val intent = Intent(this, ScheduleActivity::class.java)
+            startActivity(intent)
+        }
+
         // Set up navigation item selection
         bottomNavigationView.setOnItemSelectedListener { item ->
-        when (item.itemId) {
+            when (item.itemId) {
             R.id.nav_home -> {
-                // Open HomeActivity
-                val intent = Intent(this, HomeActivity::class.java)
-                startActivity(intent)
+                recreate()
             }
 
             R.id.nav_add-> {
