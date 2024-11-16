@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f8f8f8">
+
+    <RelativeLayout
+        android:id="@+id/top_section"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/top_shape"
+        android:backgroundTint="@color/yellow"
+        android:elevation="4dp"
+        android:padding="30dp">
+
+        <!-- Left: Class Name -->
+        <TextView
+            android:id="@+id/class_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Science"
+            android:textSize="40sp"
+            android:fontFamily="@font/fredoka_bold"
+            android:textStyle="bold"
+            android:textColor="#000"
+            android:layout_alignParentStart="true" />
+
+        <!-- Right: Info Text -->
+        <TextView
+            android:id="@+id/info_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Prof. Mircea Olteanu\nRoom AN024\n10:00 - 12:00"
+            android:textSize="16sp"
+            android:fontFamily="@font/fredoka"
+            android:textStyle="normal"
+            android:textColor="#000"
+            android:layout_alignParentEnd="true"
+            android:gravity="end"
+            android:textAlignment="viewEnd" />
+    </RelativeLayout>
+
+
+</ScrollView>
