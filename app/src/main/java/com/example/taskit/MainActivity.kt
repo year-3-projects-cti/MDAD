@@ -152,7 +152,7 @@ class MainActivity : AppCompatActivity() {
         classDetails.text = "${classItem.teacher} - ${classItem.location} - ${classItem.time}"
 
         cardView.setOnClickListener {
-            val intent = Intent(this, ClassActivity::class.java)
+            val intent = Intent(this, ScheduleActivity::class.java)
             intent.putExtra("class_name", classItem.name)
             intent.putExtra("teacher", classItem.teacher)
             intent.putExtra("location", classItem.location)

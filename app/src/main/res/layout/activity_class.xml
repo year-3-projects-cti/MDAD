@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/activity_class"
     android:background="#f8f8f8">
 
     <RelativeLayout
@@ -18,7 +19,7 @@
             android:id="@+id/class_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Science"
+            android:text=""
             android:textSize="40sp"
             android:fontFamily="@font/fredoka_bold"
             android:textStyle="bold"
@@ -30,7 +31,7 @@
             android:id="@+id/info_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Prof. Mircea Olteanu\nRoom AN024\n10:00 - 12:00"
+            android:text=""
             android:textSize="16sp"
             android:fontFamily="@font/fredoka"
             android:textStyle="normal"
