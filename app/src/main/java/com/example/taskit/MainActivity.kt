@@ -23,29 +23,29 @@ class MainActivity : AppCompatActivity() {
 
         // Redirect to AddClassActivity on click
         addClassButton.setOnClickListener {
-            val intent = Intent(this, ScheduleActivity::class.java)
+            val intent = Intent(this, AddClassActivity::class.java)
             startActivity(intent)
         }
 
         // Set up navigation item selection
         bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
-            R.id.nav_home -> {
-                recreate()
-            }
+                R.id.nav_home -> {
+                    recreate()
+                }
 
-            R.id.nav_add-> {
-                // Open AddClassActivity
-                val intent = Intent(this, ScheduleActivity::class.java)
-                startActivity(intent)
-            }
+                R.id.nav_add-> {
+                    // Open AddClassActivity
+                    val intent = Intent(this, AddClassActivity::class.java)
+                    startActivity(intent)
+                }
 
-            R.id.nav_settings -> {
-                // Open SettingsActivity
-                val intent = Intent(this, SettingsActivity::class.java)
-                startActivity(intent)
+                R.id.nav_settings -> {
+                    // Open SettingsActivity
+                    val intent = Intent(this, SettingsActivity::class.java)
+                    startActivity(intent)
+                }
             }
-        }
             true
         }
 
@@ -115,7 +115,7 @@ class MainActivity : AppCompatActivity() {
             dateTextView.text = dateFormat.format(calendar.time)
             dateTextView.setTextColor(getColor(android.R.color.white))
             dateTextView.textSize = 28f
-            dateTextView.setPadding(30, 8, 30, 8)
+            dateTextView.setPadding(26, 8, 26, 8)
             dateTextView.typeface = resources.getFont(R.font.fredoka_condensedlight)
             datesContainer.addView(dateTextView)
 
