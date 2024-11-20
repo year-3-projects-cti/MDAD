@@ -5,7 +5,16 @@
     <color name="orange">#d95639</color>
     <color name="yellow">#fcd36a</color>
     <color name="green">#4caf50</color>
+    <color name="teal">#008080</color>
     <color name="selected_color">@color/orange</color> <!-- Red color for selected state -->
     <color name="unselected_color">#888888</color> <!-- Gray color for unselected state -->
+
+    <!-- Light Mode Colors -->
+    <color name="background_light">#FFFFFF</color>
+    <color name="text_light">#000000</color>
+
+    <!-- Dark Mode Colors -->
+    <color name="background_dark">#121212</color>
+    <color name="text_dark">#FFFFFF</color>
 
 </resources>

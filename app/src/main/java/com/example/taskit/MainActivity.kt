@@ -7,7 +7,6 @@ import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.text.SimpleDateFormat
 import java.util.*
@@ -20,6 +19,7 @@ class MainActivity : AppCompatActivity() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
 
         val addClassButton = findViewById<ImageButton>(R.id.add_class_button)
+
 
         // Redirect to AddClassActivity on click
         addClassButton.setOnClickListener {
@@ -73,13 +73,6 @@ class MainActivity : AppCompatActivity() {
         for (classItem in classes) {
             addClassCard(classItem, classCardsContainer)
         }
-    }
-
-    private fun replaceFragment(fragment: Fragment): Boolean {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, fragment)
-            .commit()
-        return true
     }
 
     private fun populateDaysAndDates() {
