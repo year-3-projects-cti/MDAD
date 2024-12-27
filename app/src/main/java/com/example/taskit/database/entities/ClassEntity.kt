@@ -1,3 +1,5 @@
+package com.example.taskit
+
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 

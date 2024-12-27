@@ -1,17 +1,24 @@
 package com.example.taskit
 
+import com.example.taskit.database.viewmodel.ClassViewModel
+import com.example.taskit.ClassEntity
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.text.SimpleDateFormat
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
+
+    private val classViewModel: ClassViewModel by viewModels() // ViewModel-ul nostru
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -61,18 +68,34 @@ class MainActivity : AppCompatActivity() {
         // Highlight the current date
         highlightCurrentDate(calendar.get(Calendar.DAY_OF_MONTH))
 
-        //Example for bottom part
-        val classes = listOf(
-            ClassItem("Math", "Mr. Johnson", "Room 204", "10:00 AM"),
-            ClassItem("Physics", "Ms. Smith", "Room 305", "12:00 PM"),
-            ClassItem("Chemistry", "Dr. Lee", "Room 101", "2:00 PM")
-        )
+        observeClasses()
+        classViewModel.allClasses.observe(this, { classes ->
+            if (classes.isEmpty()) {
+                classViewModel.populateSampleData()
+            }
+        })
 
-        // Add class cards to the container
+    }
+
+    private fun observeClasses() {
         val classCardsContainer = findViewById<LinearLayout>(R.id.class_cards_container)
-        for (classItem in classes) {
-            addClassCard(classItem, classCardsContainer)
-        }
+
+        classViewModel.allClasses.observe(this, androidx.lifecycle.Observer { classes: List<ClassEntity> ->
+            classCardsContainer.removeAllViews()
+
+            classes.forEach { classEntity ->
+                addClassCard(
+                    ClassItem(
+                        name = classEntity.name,
+                        teacher = classEntity.teacher,
+                        location = classEntity.location,
+                        time = classEntity.time
+                    ),
+                    classCardsContainer
+                )
+            }
+        })
+
     }
 
     private fun populateDaysAndDates() {
@@ -83,7 +106,6 @@ class MainActivity : AppCompatActivity() {
         daysOfWeekContainer.removeAllViews()
         datesContainer.removeAllViews()
 
-        // Set the calendar to the start of the week (usually Sunday)
         val calendar = Calendar.getInstance()
         calendar.firstDayOfWeek = Calendar.SUNDAY
         calendar.set(Calendar.DAY_OF_WEEK, calendar.firstDayOfWeek)

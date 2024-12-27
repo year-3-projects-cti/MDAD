@@ -1,4 +1,8 @@
+package com.example.taskit.database.repository
+
 import androidx.lifecycle.LiveData
+import com.example.taskit.ClassEntity
+import com.example.taskit.database.dao.ClassDao
 
 class ClassRepository(private val classDao: ClassDao) {
     fun getAllClassesLive(): LiveData<List<ClassEntity>> {
@@ -7,9 +11,5 @@ class ClassRepository(private val classDao: ClassDao) {
 
     suspend fun insertClass(classEntity: ClassEntity) {
         classDao.insertClass(classEntity)
-    }
-
-    suspend fun deleteClass(classEntity: ClassEntity) {
-        classDao.deleteClass(classEntity)
     }
 }

@@ -1,14 +1,17 @@
+package com.example.taskit.database.dao
+
 import androidx.lifecycle.LiveData
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import com.example.taskit.ClassEntity
 
 @Dao
 interface ClassDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertClass(classEntity: ClassEntity)
-
     @Query("SELECT * FROM classes")
     fun getAllClassesLive(): LiveData<List<ClassEntity>>
 
-    @Delete
-    suspend fun deleteClass(classEntity: ClassEntity)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertClass(classEntity: ClassEntity)
 }
