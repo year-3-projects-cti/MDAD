@@ -33,4 +33,16 @@ class ClassViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun insertClass(newClass: ClassEntity) {
+        viewModelScope.launch {
+            repository.insertClass(newClass)
+        }
+    }
+
+    fun emptyClasses() {
+        viewModelScope.launch {
+            repository.deleteAllClasses()
+        }
+    }
+
 }

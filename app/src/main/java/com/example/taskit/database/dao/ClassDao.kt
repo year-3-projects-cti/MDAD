@@ -14,4 +14,7 @@ interface ClassDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertClass(classEntity: ClassEntity)
+
+    @Query("DELETE FROM classes")
+    suspend fun deleteAllClasses()
 }
