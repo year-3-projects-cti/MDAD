@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.google.gms.google.services)
 }
 
 android {
@@ -46,10 +47,16 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.cardview)
-    implementation (libs.material.v180)
+    implementation("androidx.cardview:cardview:1.0.0")
+    implementation("com.google.android.material:material:1.8.0")
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+
+    // Add the Google Maps SDK
+    implementation("com.google.android.gms:play-services-maps:18.1.0")
+    implementation(libs.firebase.auth)
+
+    // Room setup
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
