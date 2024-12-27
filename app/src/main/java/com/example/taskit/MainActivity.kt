@@ -1,7 +1,6 @@
 package com.example.taskit
 
 import com.example.taskit.database.viewmodel.ClassViewModel
-import com.example.taskit.ClassEntity
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -79,7 +78,7 @@ class MainActivity : AppCompatActivity() {
     private fun observeClasses() {
         val classCardsContainer = findViewById<LinearLayout>(R.id.class_cards_container)
 
-        classViewModel.allClasses.observe(this, androidx.lifecycle.Observer { classes: List<ClassEntity> ->
+        classViewModel.allClasses.observe(this) { classes: List<ClassEntity> ->
             classCardsContainer.removeAllViews()
 
             classes.forEach { classEntity ->
@@ -93,7 +92,7 @@ class MainActivity : AppCompatActivity() {
                     classCardsContainer
                 )
             }
-        })
+        }
 
     }
 
