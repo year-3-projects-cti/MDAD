@@ -95,8 +95,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/fredoka_condensedlight"
-                        android:text="aduc calculator la examen\ncumpar apa pentru muie\nsloboz la tava"
-                        android:textColor="#000"
+                        android:text="aduc calculator la examen\ncumpar apa pentru prietenul meu"
+                        android:textColor="@color/white"
                         android:textSize="14sp" />
 
                 </LinearLayout>
@@ -138,8 +138,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/fredoka_condensedlight"
-                        android:text="aduc calculator la examen\ncumpar apa pentru muie\nsloboz la tava"
-                        android:textColor="#000"
+                        android:text="aduc calculator la examen\ncumpar apa pentru prietenul meu"
+                        android:textColor="@color/white"
                         android:textSize="14sp" />
 
                 </LinearLayout>
@@ -178,27 +178,28 @@
 
 
                 <!-- Room Button -->
+
+                <!-- Deadlines Section -->
                 <Button
                     android:id="@+id/show_room_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    app:backgroundTint="@color/yellow"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
                     android:background="@drawable/mid_shape"
                     android:fontFamily="@font/fredoka_regular"
-                    android:text="Show Room"
+                    android:text="Get Directions"
                     android:textColor="#000"
-                    />
+                    app:backgroundTint="@color/yellow" />
 
-                <!-- Deadlines Section -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
+                    android:layout_weight="1"
                     android:orientation="vertical"
                     android:background="@drawable/mid_shape"
                     android:backgroundTint="@color/orange"
-                    android:minHeight="220dp"
+                    android:minHeight="300dp"
                     android:padding="16dp">
 
                     <TextView
