@@ -30,7 +30,7 @@
             android:layout_below="@id/days_of_week"
             android:gravity="center_horizontal"
             android:orientation="horizontal"
-            android:paddingStart="10dp"
+            android:paddingStart="16dp"
             android:paddingEnd="16dp">
 
             <!-- Date TextViews (replace with dynamic content) -->
@@ -151,6 +151,10 @@
     </LinearLayout>
 
     <!-- Bottom Section: Schedule of the Day (Class, Teacher, Location etc.) -->
+
+    <!-- Bottom Navigation View -->
+
+    <!-- Fragment Container -->
     <LinearLayout
         android:id="@+id/bottom_section"
         android:layout_width="match_parent"
@@ -175,25 +179,26 @@
                 android:id="@+id/schedule_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/fredoka_regular"
                 android:text="Today's Schedule"
                 android:textColor="@color/white"
-                android:textSize="28sp"
-                android:fontFamily="@font/fredoka_regular"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true" />
+                android:textSize="28sp" />
 
             <!-- Plus Button -->
             <ImageButton
                 android:id="@+id/add_class_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:src="@drawable/addbutton"
-                android:contentDescription="Add Class"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
+                android:background="@android:color/transparent"
+                android:contentDescription="Add Class"
+                android:src="@drawable/addbutton"
                 app:tint="@color/white" />
         </RelativeLayout>
+
         <LinearLayout
             android:id="@+id/class_cards_container"
             android:layout_width="match_parent"
@@ -202,6 +207,11 @@
             android:padding="16dp" />
 
     </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp" />
 
     <!-- Bottom Navigation View -->
     <com.google.android.material.bottomnavigation.BottomNavigationView

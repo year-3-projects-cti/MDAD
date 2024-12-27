@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -38,8 +41,8 @@
             </intent-filter>
         </activity>
         <meta-data
-            android:name="com.google.android.geo.AIzaSyCaKB_tb6VHgtRXflSf-KSF0cc8yyUB6FQ"
-            android:value="AIzaSyCaKB_tb6VHgtRXflSf-KSF0cc8yyUB6FQ" />
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_api_key" />
     </application>
 
 </manifest>

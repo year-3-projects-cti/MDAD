@@ -2,68 +2,62 @@ package com.example.taskit
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.taskit.R
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
 class ClassActivity : AppCompatActivity(), OnMapReadyCallback {
-    private lateinit var mapView: MapView
-    private var googleMap: GoogleMap? = null
+
+    private lateinit var googleMap: GoogleMap
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_class)
 
-        Log.d("DEBUG", "Activity started, initializing MapView...")
-
-        // Initialize the MapView
-        mapView = findViewById(R.id.map_view)
-        mapView.onCreate(savedInstanceState)
-
-        // Add debug info
-        Log.d("DEBUG", "MapView initialized successfully!")
-
-        mapView.getMapAsync(this)
+        // Initialize the SupportMapFragment
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(this)
+        } else {
+            Log.e("ERROR", "SupportMapFragment is null!")
+        }
     }
 
-    override fun onMapReady(map: GoogleMap) {
-        Log.d("DEBUG", "onMapReady invoked")
-        googleMap = map
+    override fun onMapReady(googleMap: GoogleMap) {
+        try {
+            // Save the GoogleMap instance
+            this.googleMap = googleMap
 
-        val location = LatLng(44.438465808342194, 26.050158673663066)
-        googleMap!!.addMarker(MarkerOptions().position(location).title("Politehnica Bucuresti"))
-        googleMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15f))
+            // Define a location (e.g., Politehnica București)
+            val politehnica = LatLng(44.438465808342194, 26.050158673663066)
 
-        Log.d("DEBUG", "Marker added and camera moved to Politehnica Bucuresti")
+            // Add a marker at the location
+            googleMap.addMarker(
+                MarkerOptions()
+                    .position(politehnica)
+                    .title("Politehnica București")
+            )
+
+            // Move the camera to the location and set zoom level
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(politehnica, 15f))
+
+            // Optional: Enable map controls (zoom, rotate, etc.)
+            googleMap.uiSettings.apply{
+                isZoomControlsEnabled = true
+            }
+
+            // Log or toast a success message
+            Toast.makeText(this, "Marker added successfully!", Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            // Log any errors
+            Log.e("ERROR", "Error in onMapReady: ${e.message}")
+        }
     }
 
-
-    // Lifecycle callbacks for MapView
-    override fun onResume() {
-        super.onResume()
-        mapView.onResume()
-        Log.d("DEBUG", "MapView resumed.")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        mapView.onPause()
-        Log.d("DEBUG", "MapView paused.")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        mapView.onDestroy()
-        Log.d("DEBUG", "MapView destroyed.")
-    }
-
-    override fun onLowMemory() {
-        super.onLowMemory()
-        mapView.onLowMemory()
-        Log.d("DEBUG", "MapView low memory warning.")
-    }
 }
