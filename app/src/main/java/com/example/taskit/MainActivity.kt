@@ -73,6 +73,7 @@ class MainActivity : AppCompatActivity() {
                 classViewModel.populateSampleData()
             }
         })
+//        classViewModel.emptyClasses()
     }
 
     private fun observeClasses() {

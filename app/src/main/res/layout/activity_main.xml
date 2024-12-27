@@ -133,15 +133,13 @@
             android:text="Complete math homework on calculus"
             android:textColor="#070707"
             android:textSize="16sp" />
-
     </LinearLayout>
 
     <!-- Bottom Section: Schedule (Dynamic Class Information) -->
     <LinearLayout
         android:id="@+id/bottom_section"
         android:layout_width="match_parent"
-        android:layout_height="268dp"
-        android:layout_gravity="center"
+        android:layout_height="0dp"
         android:layout_weight="1"
         android:background="@drawable/bottom_shape"
         android:backgroundTint="@color/orange"
@@ -179,14 +177,18 @@
                 app:tint="@color/white" />
         </RelativeLayout>
 
-        <!-- Dynamic Class Cards Container -->
-        <LinearLayout
-            android:id="@+id/class_cards_container"
+        <!-- Scrollable Dynamic Class Cards -->
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp" />
+            android:layout_height="wrap_content">
 
+            <LinearLayout
+                android:id="@+id/class_cards_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp" />
+        </ScrollView>
     </LinearLayout>
 
     <!-- Bottom Navigation View -->
