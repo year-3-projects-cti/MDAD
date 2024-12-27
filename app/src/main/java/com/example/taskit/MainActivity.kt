@@ -7,7 +7,6 @@ import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.text.SimpleDateFormat
 import java.util.*
@@ -21,31 +20,32 @@ class MainActivity : AppCompatActivity() {
 
         val addClassButton = findViewById<ImageButton>(R.id.add_class_button)
 
+
         // Redirect to AddClassActivity on click
         addClassButton.setOnClickListener {
-            val intent = Intent(this, ScheduleActivity::class.java)
+            val intent = Intent(this, AddClassActivity::class.java)
             startActivity(intent)
         }
 
         // Set up navigation item selection
         bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
-            R.id.nav_home -> {
-                recreate()
-            }
+                R.id.nav_home -> {
+                    recreate()
+                }
 
-            R.id.nav_add-> {
-                // Open AddClassActivity
-                val intent = Intent(this, ScheduleActivity::class.java)
-                startActivity(intent)
-            }
+                R.id.nav_add-> {
+                    // Open AddClassActivity
+                    val intent = Intent(this, AddClassActivity::class.java)
+                    startActivity(intent)
+                }
 
-            R.id.nav_settings -> {
-                // Open SettingsActivity
-                val intent = Intent(this, SettingsActivity::class.java)
-                startActivity(intent)
+                R.id.nav_settings -> {
+                    // Open SettingsActivity
+                    val intent = Intent(this, SettingsActivity::class.java)
+                    startActivity(intent)
+                }
             }
-        }
             true
         }
 
@@ -73,13 +73,6 @@ class MainActivity : AppCompatActivity() {
         for (classItem in classes) {
             addClassCard(classItem, classCardsContainer)
         }
-    }
-
-    private fun replaceFragment(fragment: Fragment): Boolean {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, fragment)
-            .commit()
-        return true
     }
 
     private fun populateDaysAndDates() {
@@ -115,7 +108,7 @@ class MainActivity : AppCompatActivity() {
             dateTextView.text = dateFormat.format(calendar.time)
             dateTextView.setTextColor(getColor(android.R.color.white))
             dateTextView.textSize = 28f
-            dateTextView.setPadding(30, 8, 30, 8)
+            dateTextView.setPadding(26, 8, 26, 8)
             dateTextView.typeface = resources.getFont(R.font.fredoka_condensedlight)
             datesContainer.addView(dateTextView)
 

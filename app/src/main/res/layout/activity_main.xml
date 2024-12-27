@@ -30,7 +30,7 @@
             android:layout_below="@id/days_of_week"
             android:gravity="center_horizontal"
             android:orientation="horizontal"
-            android:paddingStart="16dp"
+            android:paddingStart="10dp"
             android:paddingEnd="16dp">
 
             <!-- Date TextViews (replace with dynamic content) -->
@@ -202,14 +202,6 @@
             android:padding="16dp" />
 
     </LinearLayout>
-
-    <!-- Bottom Navigation View -->
-
-    <!-- Fragment Container -->
-    <FrameLayout
-        android:id="@+id/fragment_container"
-        android:layout_width="match_parent"
-        android:layout_height="0dp" />
 
     <!-- Bottom Navigation View -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
