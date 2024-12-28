@@ -68,12 +68,6 @@ class MainActivity : AppCompatActivity() {
         highlightCurrentDate(calendar.get(Calendar.DAY_OF_MONTH))
 
         observeClasses()
-        classViewModel.allClasses.observe(this, { classes ->
-            if (classes.isEmpty()) {
-                classViewModel.populateSampleData()
-            }
-        })
-//        classViewModel.emptyClasses()
     }
 
     private fun observeClasses() {
@@ -85,10 +79,14 @@ class MainActivity : AppCompatActivity() {
             classes.forEach { classEntity ->
                 addClassCard(
                     ClassItem(
-                        name = classEntity.name,
+                        type = classEntity.type,
+                        title = classEntity.title,
+                        datetime = classEntity.datetime,
+                        room = classEntity.room,
                         teacher = classEntity.teacher,
-                        location = classEntity.location,
-                        time = classEntity.time
+                        todo = classEntity.todo,
+                        deadlines = classEntity.deadlines,
+                        notes = classEntity.notes
                     ),
                     classCardsContainer
                 )
@@ -167,10 +165,15 @@ class MainActivity : AppCompatActivity() {
 
         cardView.setOnClickListener {
             val intent = Intent(this, ClassActivity::class.java)
-            intent.putExtra("class_name", classItem.name)
+            intent.putExtra("type", classItem.type)
+            intent.putExtra("title", classItem.title)
+            intent.putExtra("datetime", classItem.datetime)
+            intent.putExtra("room", classItem.room)
             intent.putExtra("teacher", classItem.teacher)
-            intent.putExtra("location", classItem.location)
-            intent.putExtra("time", classItem.time)
+            intent.putExtra("todo", classItem.todo)
+            intent.putExtra("deadlines", classItem.deadlines)
+            intent.putExtra("notes", classItem.notes)
+
             startActivity(intent)
         }
 
@@ -178,5 +181,23 @@ class MainActivity : AppCompatActivity() {
         container.addView(cardView)
     }
 
-    data class ClassItem(val name: String, val teacher: String, val location: String, val time: String)
+    data class ClassItem(
+        val type: String,
+        val title: String,
+        val datetime: String,
+        val room: String,
+        val teacher: String,
+        val todo: String,
+        val deadlines: String,
+        val notes: String
+    ) {
+        val name: String
+            get() = if (title.isEmpty()) type else title
+
+        val location: String
+            get() = if (room.isEmpty()) "Unknown Room" else room
+
+        val time: String
+            get() = if (datetime.isEmpty()) "Unknown Time" else datetime
+    }
 }

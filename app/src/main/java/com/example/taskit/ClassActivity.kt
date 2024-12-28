@@ -22,18 +22,29 @@ class ClassActivity : AppCompatActivity(), OnMapReadyCallback {
         setContentView(R.layout.activity_class)
 
         // Preluare date din Intent
-        val teacher = intent.getStringExtra("teacher") ?: "Unknown Teacher"
-        val location = intent.getStringExtra("location") ?: "Unknown Location"
-        val time = intent.getStringExtra("time") ?: "Unknown Time"
+        val type = intent.getStringExtra("type")
+        val title = intent.getStringExtra("title")
+        val datetime = intent.getStringExtra("datetime")
+        val room = intent.getStringExtra("room")
+        val teacher = intent.getStringExtra("teacher")
+        val todo = intent.getStringExtra("todo")
+        val deadlines = intent.getStringExtra("deadlines")
+        val notes = intent.getStringExtra("notes")
 
         // Setare valori în layout
         val classNameTextView = findViewById<TextView>(R.id.class_name)
         val infoTextView = findViewById<TextView>(R.id.info_text)
-        val className = prepareClassName(intent.getStringExtra("class_name"));
-
+        val className = prepareClassName(title);
+        val todoTextView = findViewById<TextView>(R.id.to_do_text)
+        val deadlinesTextView = findViewById<TextView>(R.id.deadlines_text)
+        val notesTextView = findViewById<TextView>(R.id.notes_text)
 
         classNameTextView.text = className
-        infoTextView.text = "Prof. $teacher\n$location\n$time"
+        infoTextView.text = "Prof. $teacher\n$room\n$datetime"
+        todoTextView.text = todo
+        deadlinesTextView.text = deadlines
+        notesTextView.text = notes
+
 
         // Initialize the SupportMapFragment
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment

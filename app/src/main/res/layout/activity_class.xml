@@ -92,6 +92,7 @@
                         android:textSize="18sp" />
 
                     <TextView
+                        android:id="@+id/notes_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/fredoka_condensedlight"
@@ -135,6 +136,7 @@
                         />
 
                     <TextView
+                        android:id="@+id/to_do_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/fredoka_condensedlight"
@@ -212,19 +214,11 @@
                         />
 
                     <TextView
+                        android:id="@+id/deadlines_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="19th Dec - Partial Exam"
                         android:fontFamily="@font/fredoka_condensedlight"
-                        android:textColor="#FFFFFF"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="3rd Mar - Final Exam"
-                        android:fontFamily="@font/fredoka_condensedlight"
-
                         android:textColor="#FFFFFF"
                         android:textSize="14sp" />
                 </LinearLayout>
