@@ -1,8 +1,12 @@
 package com.example.taskit
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.TextView
 import android.util.Log
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
+import android.widget.ScrollView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.taskit.R
@@ -16,6 +20,8 @@ import com.google.android.gms.maps.model.MarkerOptions
 class ClassActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var googleMap: GoogleMap
+    private lateinit var sharedPreferences: SharedPreferences
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +59,51 @@ class ClassActivity : AppCompatActivity(), OnMapReadyCallback {
         } else {
             Log.e("ERROR", "SupportMapFragment is null!")
         }
+
+        sharedPreferences = getSharedPreferences("SettingsPreferences", MODE_PRIVATE)
+
+        // Restore saved preferences
+        val isDarkMode = sharedPreferences.getBoolean("dark_mode", false)
+        val selectedColor = sharedPreferences.getString("theme_color", "orange")
+
+        // Apply saved theme color
+        applyThemeColor(selectedColor)
+        applyDarkMode(isDarkMode)
+    }
+
+
+    private fun applyThemeColor(color: String?) {
+        if (color == null) {
+            return
+        }
+
+        val notesSection = findViewById<LinearLayout>(R.id.notes_section)
+        val todoSection = findViewById<LinearLayout>(R.id.to_do_section)
+        val deadlinesSection = findViewById<LinearLayout>(R.id.deadlines_section)
+
+        when (color) {
+            "orange" -> {
+                notesSection.backgroundTintList = getColorStateList(R.color.orange)
+                todoSection.backgroundTintList = getColorStateList(R.color.orange)
+                deadlinesSection.backgroundTintList = getColorStateList(R.color.orange)
+            }
+            "teal" -> {
+                notesSection.backgroundTintList = getColorStateList(R.color.teal)
+                todoSection.backgroundTintList = getColorStateList(R.color.teal)
+                deadlinesSection.backgroundTintList = getColorStateList(R.color.teal)
+            }
+        }
+    }
+
+    private fun applyDarkMode(isDarkMode: Boolean) {
+        val background = findViewById<ScrollView>(R.id.activity_class)
+
+        if (isDarkMode) {
+            background.setBackgroundResource(R.color.background_dark)
+        } else {
+            background.setBackgroundResource(R.color.white)
+        }
+
     }
 
     private fun prepareClassName(className: String?): String {

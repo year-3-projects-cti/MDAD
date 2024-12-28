@@ -72,6 +72,7 @@
 
 
                 <LinearLayout
+                    android:id="@+id/notes_section"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
@@ -115,6 +116,7 @@
                     />
 
                 <LinearLayout
+                    android:id="@+id/to_do_section"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
@@ -195,6 +197,7 @@
                     app:backgroundTint="@color/yellow" />
 
                 <LinearLayout
+                    android:id="@+id/deadlines_section"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

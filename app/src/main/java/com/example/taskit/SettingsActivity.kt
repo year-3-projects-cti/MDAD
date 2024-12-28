@@ -5,6 +5,8 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
@@ -92,28 +94,44 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun applyThemeColor(color: String?) {
+        val settingsTitle = findViewById<TextView>(R.id.settings_title)
         when (color) {
             "orange" -> {
                 orangeCheckIcon.visibility = View.VISIBLE
                 tealCheckIcon.visibility = View.INVISIBLE
                 Toast.makeText(this, "Orange Theme Applied", Toast.LENGTH_SHORT).show()
+                settingsTitle.backgroundTintList = getColorStateList(R.color.orange)
+
             }
             "teal" -> {
                 orangeCheckIcon.visibility = View.INVISIBLE
                 tealCheckIcon.visibility = View.VISIBLE
                 Toast.makeText(this, "Teal Theme Applied", Toast.LENGTH_SHORT).show()
+                settingsTitle.backgroundTintList = getColorStateList(R.color.teal)
             }
         }
     }
 
     private fun enableDarkMode() {
+        val settingsLayout = findViewById<LinearLayout>(R.id.settings_layout)
         window.decorView.setBackgroundColor(getColor(android.R.color.background_dark))
         Toast.makeText(this, "Dark Mode Enabled", Toast.LENGTH_SHORT).show()
+        settingsLayout.setBackgroundColor(getColor(R.color.background_dark))
+        val darkModeTitle = findViewById<TextView>(R.id.dark_mode_title)
+        val themeColorTitle = findViewById<TextView>(R.id.theme_color_title)
+        darkModeTitle.setTextColor(getColor(android.R.color.white))
+        themeColorTitle.setTextColor(getColor(android.R.color.white))
     }
 
     private fun disableDarkMode() {
         window.decorView.setBackgroundColor(getColor(android.R.color.background_light))
         Toast.makeText(this, "Dark Mode Disabled", Toast.LENGTH_SHORT).show()
+        val settingsLayout = findViewById<LinearLayout>(R.id.settings_layout)
+        settingsLayout.setBackgroundColor(getColor(R.color.background_light))
+        val darkModeTitle = findViewById<TextView>(R.id.dark_mode_title)
+        val themeColorTitle = findViewById<TextView>(R.id.theme_color_title)
+        darkModeTitle.setTextColor(getColor(R.color.black))
+        themeColorTitle.setTextColor(getColor(R.color.black))
     }
 
     private fun savePreferences(key: String, value: Any) {

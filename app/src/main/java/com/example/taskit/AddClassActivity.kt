@@ -24,7 +24,7 @@ class AddClassActivity : AppCompatActivity() {
     private lateinit var roomInput: EditText
 
     private val classViewModel: ClassViewModel by viewModels()
-    private val classType = "Course"
+    private var classType = "Course"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,6 +87,8 @@ class AddClassActivity : AppCompatActivity() {
         otherButton.setTextColor(getColor(R.color.white))
 
         currentButton.setTextColor(getColor(R.color.green))
+
+        classType = currentButton.text.toString()
     }
 
     private fun handleAddClass() {
