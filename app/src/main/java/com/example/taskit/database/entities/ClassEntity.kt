@@ -9,6 +9,7 @@ data class ClassEntity(
     val type: String,
     val title: String,
     val datetime: String,
+    val day: String,
     val room: String,
     val teacher: String,
     val todo: String,
