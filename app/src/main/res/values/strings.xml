@@ -45,4 +45,15 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+
+        <string-array name="days_of_week">
+            <item>Monday</item>
+            <item>Tuesday</item>
+            <item>Wednesday</item>
+            <item>Thursday</item>
+            <item>Friday</item>
+            <item>Saturday</item>
+            <item>Sunday</item>
+        </string-array>
+
 </resources>

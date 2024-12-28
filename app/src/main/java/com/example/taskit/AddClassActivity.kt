@@ -11,6 +11,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 
 class AddClassActivity : AppCompatActivity() {
 
@@ -22,6 +25,7 @@ class AddClassActivity : AppCompatActivity() {
     private lateinit var startTimeInput: EditText
     private lateinit var endTimeInput: EditText
     private lateinit var roomInput: EditText
+    private lateinit var daySpinner: Spinner
 
     private val classViewModel: ClassViewModel by viewModels()
     private val classType = "Course"
@@ -38,6 +42,17 @@ class AddClassActivity : AppCompatActivity() {
         startTimeInput = findViewById(R.id.start_time)
         endTimeInput = findViewById(R.id.end_time)
         roomInput = findViewById(R.id.room_input)
+        daySpinner = findViewById(R.id.day_spinner)
+
+        val daysArray = resources.getStringArray(R.array.days_of_week)
+
+        val adapter = ArrayAdapter(
+            this,
+            R.layout.custom_spinner_item, // Layout for Spinner's main view
+            daysArray
+        )
+        adapter.setDropDownViewResource(R.layout.custom_spinner_dropdown) // Layout for dropdown items
+        daySpinner.adapter = adapter
 
         val cancelButton: TextView = findViewById(R.id.cancel_button)
         val addButton: TextView = findViewById(R.id.add_button)
@@ -92,6 +107,7 @@ class AddClassActivity : AppCompatActivity() {
     private fun handleAddClass() {
         val type = classType;
         val title = titleInput.text.toString()
+        val day = daySpinner.selectedItem.toString()
         val startTime = startTimeInput.text.toString()
         val endTime = endTimeInput.text.toString()
         val room = roomInput.text.toString()
@@ -105,10 +121,31 @@ class AddClassActivity : AppCompatActivity() {
             return
         }
 
+        // startTime should be hours:minutes
+        if (!startTime.matches(Regex("^([01]?[0-9]|2[0-3]):[0-5][0-9]$"))) {
+            Toast.makeText(this, "Invalid start time format. Please use HH:MM.", Toast.LENGTH_SHORT).show()
+            return
+        }
+        if (!endTime.matches(Regex("^([01]?[0-9]|2[0-3]):[0-5][0-9]$"))) {
+            Toast.makeText(this, "Invalid end time format. Please use HH:MM.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // start time should be before end time
+        val startHour = startTime.split(":")[0].toInt()
+        val startMinute = startTime.split(":")[1].toInt()
+        val endHour = endTime.split(":")[0].toInt()
+        val endMinute = endTime.split(":")[1].toInt()
+        if (startHour > endHour || (startHour == endHour && startMinute >= endMinute)) {
+            Toast.makeText(this, "Start time should be before end time.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         val newClass = ClassEntity(
             type = type,
             title = title,
             datetime = "$startTime - $endTime",
+            day = day,
             room = room,
             teacher = teacher,
             todo = todo,

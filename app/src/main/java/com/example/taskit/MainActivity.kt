@@ -82,6 +82,7 @@ class MainActivity : AppCompatActivity() {
                         type = classEntity.type,
                         title = classEntity.title,
                         datetime = classEntity.datetime,
+                        day = classEntity.day,
                         room = classEntity.room,
                         teacher = classEntity.teacher,
                         todo = classEntity.todo,
@@ -168,6 +169,7 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("type", classItem.type)
             intent.putExtra("title", classItem.title)
             intent.putExtra("datetime", classItem.datetime)
+            intent.putExtra("day", classItem.day)
             intent.putExtra("room", classItem.room)
             intent.putExtra("teacher", classItem.teacher)
             intent.putExtra("todo", classItem.todo)
@@ -185,6 +187,7 @@ class MainActivity : AppCompatActivity() {
         val type: String,
         val title: String,
         val datetime: String,
+        val day: String,
         val room: String,
         val teacher: String,
         val todo: String,
