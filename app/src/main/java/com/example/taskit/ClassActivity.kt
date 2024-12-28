@@ -1,12 +1,15 @@
 package com.example.taskit
 
 import android.content.SharedPreferences
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.widget.TextView
 import android.util.Log
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.ScrollView
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.taskit.R
@@ -16,6 +19,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class ClassActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -52,6 +56,8 @@ class ClassActivity : AppCompatActivity(), OnMapReadyCallback {
         notesTextView.text = notes
 
 
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+
         // Initialize the SupportMapFragment
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
         if (mapFragment != null) {
@@ -69,6 +75,41 @@ class ClassActivity : AppCompatActivity(), OnMapReadyCallback {
         // Apply saved theme color
         applyThemeColor(selectedColor)
         applyDarkMode(isDarkMode)
+
+
+
+        val getDirectionsButton = findViewById<Button>(R.id.get_directions_button)
+        getDirectionsButton.setOnClickListener {
+            openMapsChooser()
+        }
+
+        val shareButton = findViewById<Button>(R.id.share_button)
+        shareButton.setOnClickListener {
+            shareLocation()
+        }
+
+        bottomNavigationView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_home-> {
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                }
+
+                R.id.nav_add-> {
+                    // Open AddClassActivity
+                    val intent = Intent(this, AddClassActivity::class.java)
+                    startActivity(intent)
+                }
+
+                R.id.nav_settings -> {
+                    // Open SettingsActivity
+                    val intent = Intent(this, SettingsActivity::class.java)
+                    startActivity(intent)
+                }
+            }
+            true
+        }
+
     }
 
 
@@ -121,6 +162,7 @@ class ClassActivity : AppCompatActivity(), OnMapReadyCallback {
         return result.toString()
     }
 
+
     override fun onMapReady(googleMap: GoogleMap) {
         try {
             // Save the GoogleMap instance
@@ -151,5 +193,41 @@ class ClassActivity : AppCompatActivity(), OnMapReadyCallback {
             Log.e("ERROR", "Error in onMapReady: ${e.message}")
         }
     }
+
+    private fun openMapsChooser() {
+        try {
+            // Define the location (e.g., Politehnica București)
+            val latitude = 44.438465808342194
+            val longitude = 26.050158673663066
+            val locationUri = "geo:$latitude,$longitude?q=$latitude,$longitude(Politehnica București)"
+
+            // Create an intent to open map applications
+            val mapIntent = Intent(Intent.ACTION_VIEW).apply {
+                data = Uri.parse(locationUri)
+            }
+
+            // Force the chooser dialog to appear
+            val chooser = Intent.createChooser(mapIntent, "Open with")
+            startActivity(chooser)
+        } catch (e: Exception) {
+            Log.e("ERROR", "Failed to create map intent: ${e.message}")
+            Toast.makeText(this, "Unable to open maps chooser", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun shareLocation() {
+        val latitude = 44.438465808342194
+        val longitude = 26.050158673663066
+        val locationUri = "https://maps.google.com/?q=$latitude,$longitude"
+
+        val shareIntent = Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_SUBJECT, "Location")
+            putExtra(Intent.EXTRA_TEXT, "Check out this location: $locationUri")
+        }
+
+        startActivity(Intent.createChooser(shareIntent, "Share location via"))
+    }
+
 
 }
