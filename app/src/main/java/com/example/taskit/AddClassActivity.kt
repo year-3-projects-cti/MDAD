@@ -11,7 +11,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 
@@ -34,6 +33,7 @@ class AddClassActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_class)
 
+        // Initialize views
         teacherInput = findViewById(R.id.teacher_input)
         todoInput = findViewById(R.id.todo_input)
         deadlinesInput = findViewById(R.id.deadlines_input)
@@ -44,22 +44,24 @@ class AddClassActivity : AppCompatActivity() {
         roomInput = findViewById(R.id.room_input)
         daySpinner = findViewById(R.id.day_spinner)
 
+        // Set up day spinner
         val daysArray = resources.getStringArray(R.array.days_of_week)
-
         val adapter = ArrayAdapter(
             this,
-            R.layout.custom_spinner_item, // Layout for Spinner's main view
+            R.layout.custom_spinner_item,
             daysArray
         )
-        adapter.setDropDownViewResource(R.layout.custom_spinner_dropdown) // Layout for dropdown items
+        adapter.setDropDownViewResource(R.layout.custom_spinner_dropdown)
         daySpinner.adapter = adapter
 
+        // Handle buttons
         val cancelButton: TextView = findViewById(R.id.cancel_button)
         val addButton: TextView = findViewById(R.id.add_button)
         val courseButton = findViewById<TextView>(R.id.course_button)
         val labButton = findViewById<TextView>(R.id.lab_button)
         val seminarButton = findViewById<TextView>(R.id.seminar_button)
         val otherButton = findViewById<TextView>(R.id.other_button)
+
         cancelButton.setOnClickListener {
             finish()
         }
@@ -84,8 +86,6 @@ class AddClassActivity : AppCompatActivity() {
             setCourseType(otherButton)
         }
 
-
-
         val bottomNavigation: BottomNavigationView = findViewById(R.id.bottom_navigation)
         setupBottomNavigation(bottomNavigation)
     }
@@ -107,7 +107,7 @@ class AddClassActivity : AppCompatActivity() {
     }
 
     private fun handleAddClass() {
-        val type = classType;
+        val type = classType
         val title = titleInput.text.toString()
         val day = daySpinner.selectedItem.toString()
         val startTime = startTimeInput.text.toString()
@@ -123,7 +123,7 @@ class AddClassActivity : AppCompatActivity() {
             return
         }
 
-        // startTime should be hours:minutes
+        // Validate startTime and endTime
         if (!startTime.matches(Regex("^([01]?[0-9]|2[0-3]):[0-5][0-9]$"))) {
             Toast.makeText(this, "Invalid start time format. Please use HH:MM.", Toast.LENGTH_SHORT).show()
             return
@@ -133,7 +133,7 @@ class AddClassActivity : AppCompatActivity() {
             return
         }
 
-        // start time should be before end time
+        // Ensure start time is before end time
         val startHour = startTime.split(":")[0].toInt()
         val startMinute = startTime.split(":")[1].toInt()
         val endHour = endTime.split(":")[0].toInt()
@@ -146,7 +146,8 @@ class AddClassActivity : AppCompatActivity() {
         val newClass = ClassEntity(
             type = type,
             title = title,
-            datetime = "$startTime - $endTime",
+            startTime = startTime, // Updated
+            endTime = endTime,     // Updated
             day = day,
             room = room,
             teacher = teacher,
@@ -169,7 +170,7 @@ class AddClassActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.nav_home -> {
                     Toast.makeText(this, "Home Selected", Toast.LENGTH_SHORT).show()
-                    finish() // Navigare spre Home
+                    finish() // Navigate to Home
                     true
                 }
                 R.id.nav_add -> {
@@ -178,7 +179,7 @@ class AddClassActivity : AppCompatActivity() {
                 }
                 R.id.nav_settings -> {
                     Toast.makeText(this, "Settings Selected", Toast.LENGTH_SHORT).show()
-                    // Navigare spre Settings
+                    // Navigate to Settings
                     true
                 }
                 else -> false

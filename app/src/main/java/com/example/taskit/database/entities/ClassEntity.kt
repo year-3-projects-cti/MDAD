@@ -8,7 +8,8 @@ data class ClassEntity(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val type: String,
     val title: String,
-    val datetime: String,
+    val startTime: String, // Replaced datetime with startTime
+    val endTime: String,   // Added endTime
     val day: String,
     val room: String,
     val teacher: String,
