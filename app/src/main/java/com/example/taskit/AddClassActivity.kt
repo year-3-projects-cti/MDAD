@@ -33,7 +33,6 @@ class AddClassActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_class)
 
-        // Initialize views
         teacherInput = findViewById(R.id.teacher_input)
         todoInput = findViewById(R.id.todo_input)
         deadlinesInput = findViewById(R.id.deadlines_input)
@@ -44,17 +43,16 @@ class AddClassActivity : AppCompatActivity() {
         roomInput = findViewById(R.id.room_input)
         daySpinner = findViewById(R.id.day_spinner)
 
-        // Set up day spinner
         val daysArray = resources.getStringArray(R.array.days_of_week)
+
         val adapter = ArrayAdapter(
             this,
-            R.layout.custom_spinner_item,
+            R.layout.custom_spinner_item, // Layout for Spinner's main view
             daysArray
         )
-        adapter.setDropDownViewResource(R.layout.custom_spinner_dropdown)
+        adapter.setDropDownViewResource(R.layout.custom_spinner_dropdown) // Layout for dropdown items
         daySpinner.adapter = adapter
 
-        // Handle buttons
         val cancelButton: TextView = findViewById(R.id.cancel_button)
         val addButton: TextView = findViewById(R.id.add_button)
         val courseButton = findViewById<TextView>(R.id.course_button)
@@ -123,7 +121,6 @@ class AddClassActivity : AppCompatActivity() {
             return
         }
 
-        // Validate startTime and endTime
         if (!startTime.matches(Regex("^([01]?[0-9]|2[0-3]):[0-5][0-9]$"))) {
             Toast.makeText(this, "Invalid start time format. Please use HH:MM.", Toast.LENGTH_SHORT).show()
             return
@@ -133,7 +130,6 @@ class AddClassActivity : AppCompatActivity() {
             return
         }
 
-        // Ensure start time is before end time
         val startHour = startTime.split(":")[0].toInt()
         val startMinute = startTime.split(":")[1].toInt()
         val endHour = endTime.split(":")[0].toInt()
@@ -146,8 +142,8 @@ class AddClassActivity : AppCompatActivity() {
         val newClass = ClassEntity(
             type = type,
             title = title,
-            startTime = startTime, // Updated
-            endTime = endTime,     // Updated
+            startTime = startTime,
+            endTime = endTime,
             day = day,
             room = room,
             teacher = teacher,
@@ -170,7 +166,7 @@ class AddClassActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.nav_home -> {
                     Toast.makeText(this, "Home Selected", Toast.LENGTH_SHORT).show()
-                    finish() // Navigate to Home
+                    finish()
                     true
                 }
                 R.id.nav_add -> {
@@ -179,7 +175,6 @@ class AddClassActivity : AppCompatActivity() {
                 }
                 R.id.nav_settings -> {
                     Toast.makeText(this, "Settings Selected", Toast.LENGTH_SHORT).show()
-                    // Navigate to Settings
                     true
                 }
                 else -> false
