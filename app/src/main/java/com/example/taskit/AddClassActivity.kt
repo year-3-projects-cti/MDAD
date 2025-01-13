@@ -47,10 +47,10 @@ class AddClassActivity : AppCompatActivity() {
 
         val adapter = ArrayAdapter(
             this,
-            R.layout.custom_spinner_item, // Layout for Spinner's main view
+            R.layout.custom_spinner_item,
             daysArray
         )
-        adapter.setDropDownViewResource(R.layout.custom_spinner_dropdown) // Layout for dropdown items
+        adapter.setDropDownViewResource(R.layout.custom_spinner_dropdown)
         daySpinner.adapter = adapter
 
         val cancelButton: TextView = findViewById(R.id.cancel_button)

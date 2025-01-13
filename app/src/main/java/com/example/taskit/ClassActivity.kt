@@ -58,7 +58,6 @@ class ClassActivity : AppCompatActivity(), OnMapReadyCallback {
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
 
-        // Initialize the SupportMapFragment
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
         if (mapFragment != null) {
             mapFragment.getMapAsync(this)
@@ -68,11 +67,9 @@ class ClassActivity : AppCompatActivity(), OnMapReadyCallback {
 
         sharedPreferences = getSharedPreferences("SettingsPreferences", MODE_PRIVATE)
 
-        // Restore saved preferences
         val isDarkMode = sharedPreferences.getBoolean("dark_mode", false)
         val selectedColor = sharedPreferences.getString("theme_color", "orange")
 
-        // Apply saved theme color
         applyThemeColor(selectedColor)
         applyDarkMode(isDarkMode)
 
@@ -96,13 +93,11 @@ class ClassActivity : AppCompatActivity(), OnMapReadyCallback {
                 }
 
                 R.id.nav_add-> {
-                    // Open AddClassActivity
                     val intent = Intent(this, AddClassActivity::class.java)
                     startActivity(intent)
                 }
 
                 R.id.nav_settings -> {
-                    // Open SettingsActivity
                     val intent = Intent(this, SettingsActivity::class.java)
                     startActivity(intent)
                 }

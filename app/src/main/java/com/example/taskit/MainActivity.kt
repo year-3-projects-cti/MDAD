@@ -34,23 +34,18 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Initialize UI components
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
         val addClassButton = findViewById<ImageButton>(R.id.add_class_button)
 
-        // Setup notification channel
         createNotificationChannel()
 
-        // Check and request notification permissions for Android 13+
         checkNotificationPermission()
 
-        // Redirect to AddClassActivity on button click
         addClassButton.setOnClickListener {
             val intent = Intent(this, AddClassActivity::class.java)
             startActivity(intent)
         }
 
-        // Setup bottom navigation
         bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_home -> {
@@ -71,20 +66,16 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // Set the month title to the current month
         val monthTitle = findViewById<TextView>(R.id.month_title)
         val calendar = Calendar.getInstance()
         val monthFormat = SimpleDateFormat("MMMM", Locale.getDefault())
         monthTitle.text = monthFormat.format(calendar.time)
 
-        // Populate days of the week and highlight the current day
         populateDaysAndDates()
         highlightCurrentDate(calendar.get(Calendar.DAY_OF_MONTH))
 
-        // Observe classes and schedule notifications
         observeAndScheduleNotifications()
 
-        // Apply theme and dark mode
         sharedPreferences = getSharedPreferences("SettingsPreferences", MODE_PRIVATE)
         val isDarkMode = sharedPreferences.getBoolean("dark_mode", false)
         val selectedColor = sharedPreferences.getString("theme_color", "orange")
@@ -144,7 +135,6 @@ class MainActivity : AppCompatActivity() {
                 )
             }
 
-            // Schedule notifications for all classes
             scheduleNotificationsForClasses(this, classes)
         })
     }
@@ -252,7 +242,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkNotificationPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) { // API 33+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(
                     this,
                     Manifest.permission.POST_NOTIFICATIONS
