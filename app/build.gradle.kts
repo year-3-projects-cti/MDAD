@@ -55,6 +55,7 @@ dependencies {
     // Add the Google Maps SDK
     implementation("com.google.android.gms:play-services-maps:18.1.0")
     implementation(libs.firebase.auth)
+    implementation(libs.play.services.location)
 
     // Room setup
     testImplementation(libs.junit)

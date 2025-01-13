@@ -2,13 +2,17 @@ package com.example.taskit
 
 import android.Manifest
 import android.app.AlarmManager
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.widget.ImageButton
 import android.widget.LinearLayout
@@ -18,10 +22,19 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.example.taskit.database.viewmodel.ClassViewModel
+import com.example.taskit.provider.ClassScheduleContract
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -29,6 +42,8 @@ class MainActivity : AppCompatActivity() {
 
     private val classViewModel: ClassViewModel by viewModels()
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,7 +96,117 @@ class MainActivity : AppCompatActivity() {
         val selectedColor = sharedPreferences.getString("theme_color", "orange")
         applyThemeColor(selectedColor)
         applyDarkMode(isDarkMode)
+        fetchClassSchedule()
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+        createLocationNotificationChannel()
+        checkProximityToPolitehnica()
+
     }
+
+    private fun createLocationNotificationChannel() {
+        val channel = NotificationChannel(
+            "location_channel",
+            "Location Notifications",
+            NotificationManager.IMPORTANCE_HIGH
+        )
+        val manager = getSystemService(NotificationManager::class.java)
+        manager?.createNotificationChannel(channel)
+    }
+
+
+    private fun checkProximityToPolitehnica() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+            ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            // Request the required permissions
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION),
+                1001 // Any unique request code
+            )
+            return
+        }
+
+        fusedLocationClient.lastLocation.addOnSuccessListener { location ->
+            location?.let {
+                val distance = FloatArray(1)
+                Location.distanceBetween(
+                    it.latitude, it.longitude,
+                    44.438753, 26.049482, // Politehnica coordinates
+                    distance
+                )
+                if (distance[0] <= 500) { // 500 meters
+                    sendPolitehnicaNotification()
+                }
+            }
+        }.addOnFailureListener {
+            // Handle failure to get location
+            it.printStackTrace()
+        }
+    }
+
+    private fun sendPolitehnicaNotification() {
+        val notification = NotificationCompat.Builder(this, "location_channel")
+            .setContentTitle("Welcome to Politehnica")
+            .setContentText("You are near the Politehnica University!")
+            .setSmallIcon(android.R.drawable.ic_menu_mylocation)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .build()
+
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.POST_NOTIFICATIONS
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            val notificationManager = NotificationManagerCompat.from(this)
+            notificationManager.notify(2001, notification) // Unique notification ID
+        } else {
+            // Optionally request the permission or handle the lack of it
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                1001
+            )
+        }
+    }
+
+
+
+
+
+    private fun fetchClassSchedule() {
+        CoroutineScope(Dispatchers.IO).launch {
+            val cursor = contentResolver.query(
+                ClassScheduleContract.CONTENT_URI,
+                null,
+                null,
+                null,
+                null
+            )
+
+            val classList = mutableListOf<String>()
+
+            cursor?.let {
+                while (it.moveToNext()) {
+                    val title = it.getString(it.getColumnIndexOrThrow("title"))
+                    val day = it.getString(it.getColumnIndexOrThrow("day"))
+                    val startTime = it.getString(it.getColumnIndexOrThrow("startTime"))
+                    val endTime = it.getString(it.getColumnIndexOrThrow("endTime"))
+
+                    classList.add("Class: $title on $day from $startTime to $endTime")
+                }
+                it.close()
+            }
+
+            withContext(Dispatchers.Main) {
+                classList.forEach { println(it) }
+            }
+        }
+    }
+
+
 
     private fun applyThemeColor(color: String?) {
         if (color == null) return
@@ -271,10 +396,20 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Notification permission denied", Toast.LENGTH_SHORT).show()
             }
         }
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode == 1001) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                checkProximityToPolitehnica()
+            } else {
+                Toast.makeText(this, "Location permission is required to check proximity.", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
+
     fun scheduleNotificationsForClasses(context: Context, classes: List<ClassEntity>) {
-        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val calendar = Calendar.getInstance()
 
         for (classEntity in classes) {
@@ -309,23 +444,13 @@ class MainActivity : AppCompatActivity() {
                 val notificationTime = calendar.timeInMillis - (2 * 1000)
 
                 if (notificationTime > System.currentTimeMillis()) {
-                    val intent = Intent(context, NotificationReceiver::class.java).apply {
-                        putExtra("title", classEntity.title)
-                        putExtra("room", classEntity.room)
+                    val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                    if (!alarmManager.canScheduleExactAlarms()) {
+                        val intent = Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
+                        startActivity(intent)
+                        return
                     }
 
-                    val pendingIntent = PendingIntent.getBroadcast(
-                        context,
-                        classEntity.id,
-                        intent,
-                        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-                    )
-
-                    alarmManager.setExactAndAllowWhileIdle(
-                        AlarmManager.RTC_WAKEUP,
-                        notificationTime,
-                        pendingIntent
-                    )
                 }
             } catch (e: Exception) {
                 e.printStackTrace()

@@ -1,5 +1,6 @@
 package com.example.taskit.database.dao
 
+import android.database.Cursor
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
@@ -17,4 +18,7 @@ interface ClassDao {
 
     @Query("DELETE FROM classes")
     suspend fun deleteAllClasses()
+
+    @Query("SELECT * FROM classes")
+    fun getAllClassesCursor(): Cursor
 }
