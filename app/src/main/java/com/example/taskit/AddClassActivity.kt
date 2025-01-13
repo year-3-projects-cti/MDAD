@@ -123,7 +123,10 @@ class AddClassActivity : AppCompatActivity() {
             return
         }
 
+<<<<<<< Updated upstream
         // startTime should be hours:minutes
+=======
+>>>>>>> Stashed changes
         if (!startTime.matches(Regex("^([01]?[0-9]|2[0-3]):[0-5][0-9]$"))) {
             Toast.makeText(this, "Invalid start time format. Please use HH:MM.", Toast.LENGTH_SHORT).show()
             return
@@ -133,7 +136,10 @@ class AddClassActivity : AppCompatActivity() {
             return
         }
 
+<<<<<<< Updated upstream
         // start time should be before end time
+=======
+>>>>>>> Stashed changes
         val startHour = startTime.split(":")[0].toInt()
         val startMinute = startTime.split(":")[1].toInt()
         val endHour = endTime.split(":")[0].toInt()
@@ -146,7 +152,12 @@ class AddClassActivity : AppCompatActivity() {
         val newClass = ClassEntity(
             type = type,
             title = title,
+<<<<<<< Updated upstream
             datetime = "$startTime - $endTime",
+=======
+            startTime = startTime,
+            endTime = endTime,
+>>>>>>> Stashed changes
             day = day,
             room = room,
             teacher = teacher,
@@ -169,7 +180,11 @@ class AddClassActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.nav_home -> {
                     Toast.makeText(this, "Home Selected", Toast.LENGTH_SHORT).show()
+<<<<<<< Updated upstream
                     finish() // Navigare spre Home
+=======
+                    finish()
+>>>>>>> Stashed changes
                     true
                 }
                 R.id.nav_add -> {
@@ -178,7 +193,10 @@ class AddClassActivity : AppCompatActivity() {
                 }
                 R.id.nav_settings -> {
                     Toast.makeText(this, "Settings Selected", Toast.LENGTH_SHORT).show()
+<<<<<<< Updated upstream
                     // Navigare spre Settings
+=======
+>>>>>>> Stashed changes
                     true
                 }
                 else -> false

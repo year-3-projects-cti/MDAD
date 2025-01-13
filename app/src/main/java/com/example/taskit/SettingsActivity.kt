@@ -5,7 +5,6 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -36,41 +35,33 @@ class SettingsActivity : AppCompatActivity() {
                 }
 
                 R.id.nav_add-> {
-                    // Open AddClassActivity
                     val intent = Intent(this, AddClassActivity::class.java)
                     startActivity(intent)
                 }
 
                 R.id.nav_settings -> {
-                    // Open SettingsActivity
                     recreate()
                 }
             }
             true
         }
 
-        // Initialize shared preferences
         sharedPreferences = getSharedPreferences("SettingsPreferences", MODE_PRIVATE)
 
-        // Initialize views
         defaultColorOption = findViewById(R.id.default_color_option)
         tealColorOption = findViewById(R.id.teal_color_option)
         orangeCheckIcon = findViewById(R.id.orange_check_icon)
         tealCheckIcon = findViewById(R.id.teal_check_icon)
         darkModeToggle = findViewById(R.id.dark_mode_toggle)
 
-        // Restore saved preferences
         val isDarkMode = sharedPreferences.getBoolean("dark_mode", false)
         val selectedColor = sharedPreferences.getString("theme_color", "orange")
 
-        // Apply saved theme color
         applyThemeColor(selectedColor)
 
-        // Apply saved dark mode setting
         darkModeToggle.isChecked = isDarkMode
         if (isDarkMode) enableDarkMode() else disableDarkMode()
 
-        // Set listeners for theme color options
         defaultColorOption.setOnClickListener {
             applyThemeColor("orange")
             savePreferences("theme_color", "orange")
@@ -81,7 +72,6 @@ class SettingsActivity : AppCompatActivity() {
             savePreferences("theme_color", "teal")
         }
 
-        // Set listener for dark mode toggle
         darkModeToggle.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 enableDarkMode()

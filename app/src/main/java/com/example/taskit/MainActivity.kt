@@ -11,6 +11,15 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+<<<<<<< Updated upstream
+=======
+import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
+import com.example.taskit.database.viewmodel.ClassViewModel
+>>>>>>> Stashed changes
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.text.SimpleDateFormat
 import java.util.*
@@ -83,6 +92,40 @@ class MainActivity : AppCompatActivity() {
         applyDarkMode(isDarkMode)
     }
 
+    override fun onPause() {
+        super.onPause()
+        sendExitNotification()
+    }
+
+    private fun sendExitNotification() {
+        val intent = Intent(this, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+
+        // Build the notification
+        val notification = NotificationCompat.Builder(this, "class_channel")
+            .setSmallIcon(android.R.drawable.ic_dialog_info)
+            .setContentTitle("TaskIT Reminder")
+            .setContentText("Don't forget to check your schedule!")
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setContentIntent(pendingIntent)
+            .setAutoCancel(true) // Automatically removes the notification when clicked
+            .build()
+
+        // Display the notification
+        val notificationManager = NotificationManagerCompat.from(this)
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
+        notificationManager.notify(System.currentTimeMillis().toInt(), notification)
+    }
+
+
     private fun applyThemeColor(color: String?) {
         if (color == null) {
             return
@@ -141,6 +184,11 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+<<<<<<< Updated upstream
+=======
+            scheduleNotificationsForClasses(this, classes)
+        })
+>>>>>>> Stashed changes
     }
 
     private fun populateDaysAndDates() {
@@ -238,6 +286,116 @@ class MainActivity : AppCompatActivity() {
         container.addView(cardView)
     }
 
+<<<<<<< Updated upstream
+=======
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = android.app.NotificationChannel(
+                "class_channel",
+                "Class Notifications",
+                android.app.NotificationManager.IMPORTANCE_HIGH
+            ).apply {
+                description = "Notifications for upcoming classes"
+            }
+
+            val notificationManager = getSystemService(android.app.NotificationManager::class.java)
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
+    private fun checkNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                    1
+                )
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode == 1) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Notification permission granted", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Notification permission denied", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    fun scheduleNotificationsForClasses(context: Context, classes: List<ClassEntity>) {
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val calendar = Calendar.getInstance()
+
+        for (classEntity in classes) {
+            try {
+                val dayOfWeek = when (classEntity.day) {
+                    "Monday" -> Calendar.MONDAY
+                    "Tuesday" -> Calendar.TUESDAY
+                    "Wednesday" -> Calendar.WEDNESDAY
+                    "Thursday" -> Calendar.THURSDAY
+                    "Friday" -> Calendar.FRIDAY
+                    "Saturday" -> Calendar.SATURDAY
+                    "Sunday" -> Calendar.SUNDAY
+                    else -> continue
+                }
+
+                val timeParts = classEntity.startTime.split(":")
+                val hour = timeParts[0].toInt()
+                val minute = timeParts[1].toInt()
+
+                calendar.apply {
+                    set(Calendar.DAY_OF_WEEK, dayOfWeek)
+                    set(Calendar.HOUR_OF_DAY, hour)
+                    set(Calendar.MINUTE, minute)
+                    set(Calendar.SECOND, 0)
+                    set(Calendar.MILLISECOND, 0)
+
+                    if (timeInMillis < System.currentTimeMillis()) {
+                        add(Calendar.WEEK_OF_YEAR, 1)
+                    }
+                }
+
+                val notificationTime = calendar.timeInMillis - (2 * 1000)
+
+                if (notificationTime > System.currentTimeMillis()) {
+                    val intent = Intent(context, NotificationReceiver::class.java).apply {
+                        putExtra("title", classEntity.title)
+                        putExtra("room", classEntity.room)
+                    }
+
+                    val pendingIntent = PendingIntent.getBroadcast(
+                        context,
+                        classEntity.id,
+                        intent,
+                        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                    )
+
+                    alarmManager.setExactAndAllowWhileIdle(
+                        AlarmManager.RTC_WAKEUP,
+                        notificationTime,
+                        pendingIntent
+                    )
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+>>>>>>> Stashed changes
     data class ClassItem(
         val type: String,
         val title: String,

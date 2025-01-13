@@ -165,48 +165,38 @@ class ClassActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         try {
-            // Save the GoogleMap instance
             this.googleMap = googleMap
 
-            // Define a location (e.g., Politehnica București)
             val politehnica = LatLng(44.438465808342194, 26.050158673663066)
 
-            // Add a marker at the location
             googleMap.addMarker(
                 MarkerOptions()
                     .position(politehnica)
                     .title("Politehnica București")
             )
 
-            // Move the camera to the location and set zoom level
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(politehnica, 15f))
 
-            // Optional: Enable map controls (zoom, rotate, etc.)
             googleMap.uiSettings.apply{
                 isZoomControlsEnabled = true
             }
 
-            // Log or toast a success message
             Toast.makeText(this, "Marker added successfully!", Toast.LENGTH_SHORT).show()
         } catch (e: Exception) {
-            // Log any errors
             Log.e("ERROR", "Error in onMapReady: ${e.message}")
         }
     }
 
     private fun openMapsChooser() {
         try {
-            // Define the location (e.g., Politehnica București)
             val latitude = 44.438465808342194
             val longitude = 26.050158673663066
             val locationUri = "geo:$latitude,$longitude?q=$latitude,$longitude(Politehnica București)"
 
-            // Create an intent to open map applications
             val mapIntent = Intent(Intent.ACTION_VIEW).apply {
                 data = Uri.parse(locationUri)
             }
 
-            // Force the chooser dialog to appear
             val chooser = Intent.createChooser(mapIntent, "Open with")
             startActivity(chooser)
         } catch (e: Exception) {
