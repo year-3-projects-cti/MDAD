@@ -1,51 +1,68 @@
-# 📅 TaskIT
+# TaskIT: Student Schedule Manager
 
-## 📱 Project for Mobile Device Application Development
+## Description
+**TaskIT** is a mobile application designed for students to efficiently manage their schedules, classes, and assignments. The app helps users stay on top of their academic commitments with features such as:
 
-This project, **TaskIT**, is a Schedule/TimeTable application specifically designed for educational and school purposes. It has been created as part of the Mobile Device Application Development course, and it focuses on helping students manage their classes, assignments, and schedules more efficiently.
-
-### 👥 Creators
-- **Dumitru Vlad Andrei** [kevinvlad03](https://github.com/kevinvlad03)
-- **Prodan Florin Mihai** [mihaiprodann](https://github.com/mihaiprodann)
-
----
-
-## 📑 Table of Contents
-1. [Overview](#overview)
-2. [Features](#features)
-3. [Installation](#installation)
-4. [Usage](#usage)
+- Adding and managing class schedules.
+- Viewing a weekly timetable with detailed class information.
+- Notifications for upcoming classes.
+- Integration with Google Maps for classroom location.
+- Location-based notifications to provide a "Welcome to Politehnica" alert when near the university.
+- Persistent storage of user preferences like theme color and dark mode.
 
 ---
 
-### 📖 Overview
+## Features
+- **Add Class**: Easily add class details including title, day, time, and location.
+- **Class Notifications**: Receive reminders for upcoming classes.
+- **Location Alerts**: Notify users when they are near Politehnica.
+- **Customizable Theme**: Choose between different themes and enable/disable dark mode.
+- **Weekly Timetable**: Display all classes for the current week.
+- **Persistent Storage**: Save user preferences and class data securely.
 
-TaskIT provides an organized and user-friendly way to manage academic schedules, reminders, and assignments. With features tailored for educational settings, it helps students keep track of their daily routines and upcoming tasks. The application is developed using Android Studio with Kotlin and Java.
+---
 
-### 🌟 Features
+## Components Used
+### **Foreground Services**
+- **Purpose**: To monitor user location in the background and send a location-based notification when the user is near Politehnica.
+- **Implementation**: The `LocationForegroundService` runs continuously to check user location and trigger notifications.
 
-1. **📚 Add and Edit Classes**
-    - Allows users to add, edit, and delete class entries, including information such as class name, subject, teacher, timings, and notes.
+### **Broadcast Receivers**
+- **Purpose**: To handle system events and application-wide actions.
+- **Implementation**: The `NotificationReceiver` triggers class reminders when the alarm event fires.
 
-2. **📅 Weekly Timetable View**
-    - Displays a weekly timetable showing all scheduled classes, organized by day and time for easy viewing.
+### **Intents**
+- **Purpose**: To navigate between app components and pass data between activities.
+- **Implementation**: Used for navigation, such as starting `AddClassActivity` or `ClassActivity`.
 
-3. **⏰ Notifications and Reminders**
-    - Users can set up notifications to remind them before classes or assignment due dates.
+### **Activities**
+- **Purpose**: Handle user interactions and display app content.
+- **Implementation**: 
+  - `MainActivity`: Main dashboard for managing schedules.
+  - `AddClassActivity`: UI for adding a new class.
+  - `ClassActivity`: Detailed view of a specific class.
 
-4. **🎨 Color-Coded Subjects**
-    - Assign colors to different subjects to quickly identify them in the timetable view.
+### **Shared Preferences**
+- **Purpose**: Store user preferences persistently.
+- **Implementation**: Save theme color and dark mode settings.
 
-5. **📝 Homework and Assignments Section**
-    - Separate section for recording homework and assignments, with details on subject, due date, and additional notes.
+### **Content Providers**
+- **Purpose**: Share data between apps or components.
+- **Implementation**: The `ClassScheduleProvider` exposes class schedules to other apps or components.
 
-6. **📍 Classroom Location with Google Maps**
-    - Add classroom locations and access navigation assistance via Google Maps.
+### **Room Database**
+- **Purpose**: Store structured class data locally.
+- **Implementation**: Used `Room` for storing class schedules via `ClassEntity` and `ClassDao`.
 
-7. **🔔 Daily and Weekly Reminders for Assignments**
-    - Set reminders to stay on top of assignment deadlines with daily or weekly notifications.
+### **Notifications**
+- **Purpose**: Notify users of upcoming classes and important events.
+- **Implementation**: Notifications are triggered for classes and location-based events near Politehnica.
 
-8. **📤 Share Timetable**
-    - Export and share the timetable with classmates or teachers in PDF or text format.
+### **External API (Google Maps)**
+- **Purpose**: Fetch location data to calculate proximity to Politehnica.
+- **Implementation**: Used Google Maps API to provide location services and map-based functionality.
 
-Happy scheduling with **TaskIT**! 🎉
+---
+
+## GitHub Repository
+[TaskIT GitHub Repository](https://github.com/year-3-projects-cti/MDAD.git)
